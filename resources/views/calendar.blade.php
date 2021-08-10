@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($client->agendamentos as $atendimento)
+                @foreach($client->atendimentos as $atendimento)
                 <tr>
                     <td>{{ $atendimento->data->format('d/m/Y') }}</td>
                     <td>@money($atendimento->valor)</td>

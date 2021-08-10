@@ -77,6 +77,8 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+        $client->atendimentos = Calendar::where('client_id', $client->id)->orderBy('data', 'desc')->get();
+
         return View('calendar', ['client' => $client]);
     }
 
@@ -186,7 +188,7 @@ class ClientController extends Controller
 
         $calendars = Calendar::whereBetween(DB::raw('DATE(data)'), [$initialDate, $finalDate])
             ->with('client')
-            ->orderBy('data')
+            ->orderBy('data', 'desc')
             ->get();
 
         $traducao = '';
