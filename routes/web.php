@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/clients', [ClientController::class, 'index']);
+Route::get('/clients', [ClientController::class, 'index'])->name('clients');
 Route::get('/clients/create', [ClientController::class, 'create']);
 Route::get('/clients/{client}', [ClientController::class, 'show']);
 Route::get('/clients/{client}/edit', [ClientController::class, 'edit']);
@@ -26,4 +27,5 @@ Route::post('/clients', [ClientController::class, 'store']);
 Route::put('/clients/{client}', [ClientController::class, 'update']);
 Route::post('/clients/calendar', [ClientController::class, 'addCalendar']);
 
+Route::get('/calendars/{id}', [CalendarController::class, 'edit']);
 Route::get('/calendars/{season}', [ClientController::class, 'calendarListBySeason']);

@@ -141,9 +141,16 @@ class ClientController extends Controller
         $data = $data[2] . '-' . $data[1] . '-' . $data[0];
         $sendData['data'] = $data;
         $sendData['valor'] = floatval($sendData['valor']);
-        Calendar::create($sendData);
 
-        return redirect('/clients');
+        if(empty($sendData['calendar_id'])) {
+            $calendar = Calendar::create($sendData);
+            $calendar->refresh();
+        } else {
+            $calendar = Calendar::find($sendData['calendar_id']);
+            $calendar->update($sendData);
+        }
+
+        return redirect('/clients?nome=' . urlencode($calendar->client->nome));
     }
 
     private function toDateBanco($data)

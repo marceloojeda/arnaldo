@@ -92,3 +92,25 @@ function showCalendarBySeason(season) {
         $('#calendar-by-season').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
     });
 }
+
+function editAtendimento(idAtendimento) {
+    $.ajax({
+        url: 'calendars/' + idAtendimento,
+        type: 'GET',
+        dataType: 'html'
+    })
+    .done(function(results){
+        const obj = JSON.parse(results);
+        $('#txtData').val(obj.data);
+        $('#txtValor').val(obj.valor);
+        $('#txtObs').val(obj.observacao);
+        $('#calendar_id').val(obj.id);
+
+        initModal(0, true);
+    })
+    .fail(function(x, y){
+        console.log('x: ' + x)
+        console.log('y: ' + y)
+        $('#dynamic-content').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+    });
+}

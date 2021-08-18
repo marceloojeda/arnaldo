@@ -3,7 +3,9 @@
 
 <div class="row">
     <div class="col-6">
-        <h2 class="card-title m-2">Clientes</h2>
+        <h2 class="card-title m-2">
+        <a href="{{ route('clients') }}">Clientes</a>
+        </h2>
     </div>
     <div class="col-6 text-right">
         <a href="/clients/create" class="btn btn-sm btn-primary m-2">Novo Cliente</a>

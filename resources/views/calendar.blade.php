@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 @foreach($client->atendimentos as $atendimento)
-                <tr>
+                <tr onclick="editAtendimento('{{ $atendimento->id }}')">
                     <td>{{ $atendimento->data->format('d/m/Y') }}</td>
                     <td>@money($atendimento->valor)</td>
                     <td colspan="2">{{ $atendimento->observacao }}</td>
@@ -36,6 +36,7 @@
 </div>
 
 <div class="row d-none" id="form-atendimento">
+    <input type="hidden" name="calendar_id" id="calendar_id">
     <div class="form-group col-6">
         <label for="txtData">Data</label>
         <input type="input" name="data" class="form-control date" id="txtData" maxlength="10">
