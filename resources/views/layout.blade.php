@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Arnaldo Cabeleireiro</title>
 
     <!-- <link rel="stylesheet" href="site.css"/> -->
@@ -13,8 +16,10 @@
 
 <body>
     <div class="container-fluid">
-        <header class="bg-dark text-light p-2 mt-2">
-            <h1>Sistema de gestão do salão</h1>
+        <header class="bg-light text-dark text-center p-2 mt-2">
+            <h3>
+                <a href="/">Salão do Arnaldo</a>
+            </h3>
         </header>
         <!-- <section class="menu">
             <ul>

@@ -27,5 +27,5 @@ Route::post('/clients', [ClientController::class, 'store']);
 Route::put('/clients/{client}', [ClientController::class, 'update']);
 Route::post('/clients/calendar', [ClientController::class, 'addCalendar']);
 
+Route::get('/calendars', [CalendarController::class, 'calendarListBySeason']);
 Route::get('/calendars/{id}', [CalendarController::class, 'edit']);
-Route::get('/calendars/{season}', [ClientController::class, 'calendarListBySeason']);

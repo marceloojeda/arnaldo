@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 @foreach($client->atendimentos as $atendimento)
-                <tr onclick="editAtendimento('{{ $atendimento->id }}')">
+                <tr onclick="editAtendimento('{{ $atendimento->id }}')" style="cursor:pointer;">
                     <td>{{ $atendimento->data->format('d/m/Y') }}</td>
                     <td>@money($atendimento->valor)</td>
                     <td colspan="2">{{ $atendimento->observacao }}</td>

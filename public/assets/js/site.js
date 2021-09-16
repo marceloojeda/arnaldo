@@ -74,9 +74,27 @@ function getDataAtual() {
 }
 
 function showCalendarBySeason(season) {
+
+    // $.ajax({
+    //     url: 'sale-confirm',
+    //     headers: {
+    //         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     method: 'POST',
+    //     dataType: 'json',
+    //     data: proposta,
+    //     success: function(data){
+    //       console.log('succes: '+data);
+    //     }
+    // });
+
+
     $.ajax({
-        url: document.getElementById('urlCalendarSeason').value + season ,
-        type: 'GET',
+        url: document.getElementById('urlCalendarSeason').value + season,
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: 'GET',
         dataType: 'html'
     })
     .done(function(data){

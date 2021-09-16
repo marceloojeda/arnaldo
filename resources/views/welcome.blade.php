@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Arnaldo</title>
 
     <!-- <link rel="stylesheet" href="site.css"/> -->
@@ -37,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" id="urlCalendarSeason" value="{{ env('APP_URL') . '/calendars/' }}">
+        <input type="hidden" id="urlCalendarSeason" value="{{ env('APP_URL') . '/calendars?season=' }}">
         <div id="calendar-by-season">
         </div>
     </div>
