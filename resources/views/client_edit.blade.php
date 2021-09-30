@@ -4,12 +4,18 @@
 <form action="/clients/{{ $client['id'] }}" method="post">
     @csrf
     @method('PUT')
+    <input type="hidden" id="deleted_at" name="deleted_at" value="{{$client['deleted_at']}}">
     <div class="card mt-2">
         <div class="card-header bg-info text-light text-center">
             Atualização de Cadastro
         </div>
 
         <div class="card-body">
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <input data-style="float-right" data-on="Ativo" data-off="Inativo" data-size="small" data-onstyle="success" data-offstyle="danger" id="is_active" type="checkbox" data-toggle="toggle" {{ $client['deleted_at'] ? '' : 'checked' }} >
+                </div>
+            </div>
             <div class="row">
                 <div class="form-group col-sm-8">
                     <label for="nome" class="form-label">Nome</label>

@@ -48,4 +48,14 @@
     <div class="form-group col-12">
         <textarea class="form-control" name="observacao" id="txtObs" rows="3"></textarea>
     </div>
+    <div class="form-group col-12 d-none" id="divIsActive">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="checkbox" name="is_active">
+                </div>
+            </div>
+            <input type="text" class="form-control" value="Excluir esse atendimento?" disabled>
+        </div>
+    </div>
 </div>

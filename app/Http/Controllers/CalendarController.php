@@ -23,13 +23,12 @@ class CalendarController extends Controller
 
     private function toDateBr($data = '')
     {
-        if (!empty($data) AND $data != '0000-00-00') {
+        if (!empty($data) and $data != '0000-00-00') {
 
             list($ano, $mes, $dia) = explode('-', substr(@$data, 0, 10));
             return $dia . '/' . $mes . '/' . $ano;
         }
         return 0;
-
     }
 
     public function calendarListBySeason(Request $request)
@@ -38,58 +37,65 @@ class CalendarController extends Controller
             return response()->noContent();
         }
 
-        $season = $request->input('season');
-        $initialDate = '';
-        $finalDate = '';
-        $traducao = '';
-        switch ($season) {
-            case 'daily':
-                $initialDate = date('Y-m-d 00:00:00');
-                $finalDate = date('Y-m-d 23:59:59');
-                $traducao = 'do dia';
-                break;
+        try {
 
-            case 'weekly':
-                $week = $this->getWeekly();
-                $initialDate = $week[0];
-                $finalDate = $week[1];
-                $traducao = 'da semana';
-                break;
 
-            case 'monthly':
-                $initialDate = date('Y-m-01 00:00:00');
-                $finalDate = date('Y-m-t 23:59:59');
-                $traducao = 'do mês';
-                break;
 
-            default:
-                $week = $this->getWeekly();
-                $initialDate = $week[0];
-                $finalDate = $week[1];
-                $traducao = 'da semana';
-                break;
+            $season = $request->input('season');
+            $initialDate = '';
+            $finalDate = '';
+            $traducao = '';
+            switch ($season) {
+                case 'daily':
+                    $initialDate = date('Y-m-d 00:00:00');
+                    $finalDate = date('Y-m-d 23:59:59');
+                    $traducao = 'do dia';
+                    break;
+
+                case 'weekly':
+                    $week = $this->getWeekly();
+                    $initialDate = $week[0];
+                    $finalDate = $week[1];
+                    $traducao = 'da semana';
+                    break;
+
+                case 'monthly':
+                    $initialDate = date('Y-m-01 00:00:00');
+                    $finalDate = date('Y-m-t 23:59:59');
+                    $traducao = 'do mês';
+                    break;
+
+                default:
+                    $week = $this->getWeekly();
+                    $initialDate = $week[0];
+                    $finalDate = $week[1];
+                    $traducao = 'da semana';
+                    break;
+            }
+
+            // if (env('APP_ENV') === 'local') {
+            //     $initialDate = '2021-06-01 00:00:00';
+            //     $finalDate = '2021-06-10 23:59:00';
+            // }
+
+            $calendars = Calendar::whereBetween(\DB::raw('DATE(data)'), [$initialDate, $finalDate])
+                ->with('client')
+                ->orderBy('data', 'desc')
+                ->get();
+
+            $key = 'valor';
+            $sum = array_sum(array_column($calendars->toArray(), $key));
+
+            $dataView = [
+                'filtro' =>  $traducao,
+                'results' => $calendars,
+                'total' => $sum
+            ];
+
+            return view('rel_atendimentos_modal', ['dataView' => $dataView]);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 500);
         }
-
-        // if (env('APP_ENV') === 'local') {
-        //     $initialDate = '2021-06-01 00:00:00';
-        //     $finalDate = '2021-06-10 23:59:00';
-        // }
-
-        $calendars = Calendar::whereBetween(\DB::raw('DATE(data)'), [$initialDate, $finalDate])
-            ->with('client')
-            ->orderBy('data', 'desc')
-            ->get();
-
-        $key = 'valor';
-        $sum = array_sum(array_column($calendars->toArray(), $key));
-
-        $dataView = [
-            'filtro' =>  $traducao,
-            'results' => $calendars,
-            'total' => $sum
-        ];
-
-        return view('rel_atendimentos_modal', ['dataView' => $dataView]);
     }
 
     private function getWeekly()
@@ -103,23 +109,23 @@ class CalendarController extends Controller
             ? strtotime('now')
             : strtotime($date);
 
-        $week = ['dom' => '',
+        $week = [
+            'dom' => '',
             'seg' => '',
             'ter' => '',
             'qua' => '',
             'qui' => '',
             'sex' => '',
-            'sab' => ''];
+            'sab' => ''
+        ];
 
         $keys = array_keys($week);
 
-        if ($current > 0)
-        {
-            $now = strtotime('-'.($current).' day', $now);
+        if ($current > 0) {
+            $now = strtotime('-' . ($current) . ' day', $now);
         }
 
-        for($i = 0; $i < 7; $i++)
-        {
+        for ($i = 0; $i < 7; $i++) {
             $week[$keys[$i]] = date('Y-m-d', strtotime("+$i day", $now));
         }
 

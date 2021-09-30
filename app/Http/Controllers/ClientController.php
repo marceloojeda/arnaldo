@@ -120,6 +120,10 @@ class ClientController extends Controller
             $data['data_adesao'] = $this->toDateBanco($data['data_adesao']);
         }
         $client->update($data);
+
+        if (!empty($data['deleted_at'])) {
+            $client->delete();
+        }
         return redirect('/clients');
     }
 
@@ -147,7 +151,11 @@ class ClientController extends Controller
             $calendar->refresh();
         } else {
             $calendar = Calendar::find($sendData['calendar_id']);
-            $calendar->update($sendData);
+            if(!empty($request->is_active)) {
+                $calendar->delete();
+            } else {
+                $calendar->update($sendData);
+            }
         }
 
         return redirect('/clients?nome=' . urlencode($calendar->client->nome));
