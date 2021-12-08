@@ -43,7 +43,16 @@ class CalendarController extends Controller
 
             $season = $request->input('season');
             $initialDate = '';
+            if(!empty($request->input('inicio'))) {
+                $arr = explode('/', $request->input('inicio'));
+                $initialDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0] . ' 00:00:00';
+            }
+
             $finalDate = '';
+            if(!empty($request->input('fim'))) {
+                $arr = explode('/', $request->input('fim'));
+                $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0] . ' 23:59:59';
+            }
             $traducao = '';
             switch ($season) {
                 case 'daily':
@@ -63,6 +72,12 @@ class CalendarController extends Controller
                     $initialDate = date('Y-m-01 00:00:00');
                     $finalDate = date('Y-m-t 23:59:59');
                     $traducao = 'do mês';
+                    break;
+
+                case 'custom':
+                    $initialDate = $initialDate ?? date('Y-m-d 00:00:00');
+                    $finalDate = $finalDate ?? date('Y-m-d 23:59:59');
+                    $traducao = 'do período';
                     break;
 
                 default:

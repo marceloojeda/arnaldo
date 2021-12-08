@@ -75,8 +75,15 @@ function getDataAtual() {
 
 function showCalendarBySeason(season) {
 
+    let url = document.getElementById('urlCalendarSeason').value + season;
+    if(season == 'custom') {
+        const dtInicial = $('#dtInicial').val();
+        const dtFinal = $('#dtFinal').val();
+        url += '&inicio=' + dtInicial + '&fim=' + dtFinal
+    }
+
     $.ajax({
-        url: document.getElementById('urlCalendarSeason').value + season,
+        url: url,
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
         },
@@ -127,3 +134,15 @@ $(function () {
         }
     })
 })
+
+$(document).ready(function() {
+    $('#dtInicial').val(getDataAtual());
+    $('#dtFinal').val(getDataAtual());
+
+    $("#dtInicial").focus(function() { $(this).select(); } );
+    $("#dtFinal").focus(function() { $(this).select(); } );
+
+    $('#filterAtendimentos').on('shown.bs.modal', function (e) {
+        document.getElementById("dtInicial").focus();
+    })
+});

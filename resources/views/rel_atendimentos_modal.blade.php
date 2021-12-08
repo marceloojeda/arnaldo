@@ -15,14 +15,13 @@
                             <th>Cliente</th>
                             <th>Valor</th>
                             <th>Observações</th>
-                            <!-- <th class="text-right"><button type="button" id="openCalendarForm" class="btn btn-sm btn-info">Novo Atendimento</button></th> -->
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($dataView['results'] as $item)
-                        <tr id="{{ $item['id'] }}">
+                        <tr id="{{ $item->id }}">
                             <td>{{ $item->data->format('d/m/Y') }}</td>
-                            <td>{{ $item->client->nome }}</td>
+                            <td>{{ $item->client->nome ?? '' }}</td>
                             <td class="text-right">@money($item->valor)</td>
                             <td>{{ $item->observacao }}</td>
                         </tr>
